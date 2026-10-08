@@ -4,7 +4,10 @@ const MAX_CAP_CENTS = 10000n;
 const DEFAULT_DURATION_MINUTES = 60;
 
 function capDisplay(cents: bigint) {
-  return `$${(cents / 100n).toFixed(2)}`;
+  const whole = cents / 100n;
+  const frac = (cents % 100n);
+  const padded = frac.toString().padStart(2, "0");
+  return `$${whole}.${padded}`;
 }
 
 function statusLabel(status: string) {
