@@ -1,0 +1,15 @@
+{
+  "name": "bounded-agent-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "echo 'Start runtime + provider-middleware + dashboard locally as needed'",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
