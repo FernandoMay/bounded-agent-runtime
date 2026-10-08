@@ -1,21 +1,25 @@
 {
-  "name": "@agentic/runtime",
-  "version": "0.1.1",
+  "name": "@agentic/paykit-gateway",
+  "version": "0.1.0",
   "private": true,
+  "type": "module",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "node --test dist/**/*.test.js || true"
+    "start": "node dist/server.js",
+    "test": "node --test dist/**/*.test.js"
   },
   "dependencies": {
+    "@agentic/runtime": "workspace:*",
     "@solana/pay-kit": "0.13.1",
     "@solana/kit": "8.4.0",
+    "express": "^4.21.0",
     "mppx": "0.13.3",
     "surfpool-sdk": "1.2.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.0",
     "@types/node": "^22.0.0",
     "typescript": "^5.7.0"
   }
