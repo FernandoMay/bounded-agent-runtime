@@ -16,6 +16,19 @@ importers:
 
   .: {}
 
+  apps/boundia-demo:
+    dependencies:
+      '@agentic/boundia':
+        specifier: workspace:*
+        version: link:../../packages/boundia
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.5
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
   apps/dashboard:
     dependencies:
       react:
@@ -58,6 +71,15 @@ importers:
       '@solana/pay-kit':
         specifier: 0.13.1
         version: 0.13.1(@solana/addresses@8.4.0(typescript@5.9.3))(@solana/codecs-core@8.4.0(typescript@5.9.3))(@solana/codecs-strings@8.4.0(typescript@5.9.3))(@solana/keys@8.4.0(typescript@5.9.3))(@solana/signers@8.4.0(typescript@5.9.3))(@solana/sysvars@8.4.0(typescript@5.9.3))(@solana/transactions@8.4.0(typescript@5.9.3))(bufferutil@4.1.0)(express@4.22.3)(typescript@5.9.3)(utf-8-validate@6.0.6)(viem@2.57.4(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.6.5))
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.20.5
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
+  packages/boundia:
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
