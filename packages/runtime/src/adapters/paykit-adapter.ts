@@ -1,12 +1,3 @@
-export interface Voucher {
-  token: string;
-  amount: bigint;
-  sessionId: string;
-}
-
-export abstract class PayKitAdapter {
-  abstract getChannelId(): string;
-  abstract getSessionCreatedAt(): number;
-  abstract signCumulativeVoucher(price: bigint): Promise<Voucher>;
-  abstract closeAndSettle(): Promise<string>;
-}
+// Removed: superseded by ./paykit-adapter.ts (real @solana/pay-kit integration).
+// Kept as an empty file only so stale relative imports fail loudly, not silently.
+export {};

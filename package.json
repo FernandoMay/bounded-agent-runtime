@@ -11,5 +11,15 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "overrides": {
+      "@solana-program/token": "0.17.0",
+      "@solana-program/token-2022": "^0.15.0",
+      "@solana-program/compute-budget": "^0.16.0",
+      "@solana-program/system": "^0.15.0",
+      "@solana-program/record": "^0.4.0",
+      "@solana-program/zk-elgamal-proof": "^0.4.0"
+    }
+  }
 }

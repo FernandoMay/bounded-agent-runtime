@@ -5,10 +5,10 @@
   "type": "module",
   "dependencies": {
     "@agentic/runtime": "workspace:*",
-    "@solana/web3.js": "^1.99.0"
-  },
-  "peerDependencies": {
-    "@agentic/runtime": "workspace:*"
+    "@agentic/paykit-gateway": "workspace:*",
+    "@solana/pay-kit": "0.13.1",
+    "@solana/kit": "8.4.0",
+    "@solana/mpp": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "commit2": "node dist/index.js"
   }
 }

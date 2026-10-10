@@ -1,20 +1,14 @@
 /**
  * Evidence captured from a real PayKit session (MPP payment channel) flow.
  *
- * This is the evidence structure we want to surface from the runtime after a
- * session is opened, consumed, and settled. It is *not* invented — it mirrors
- * the shapes the SDK actually exposes (`Payment`, receipt headers, settlement
- * transaction, `sessionRoutes.receipt()` channel state).
+ * Mirrors the shapes the SDK actually exposes (`Payment`, settlement headers,
+ * settlement transaction) — no invented structs.
  */
 export interface SessionEvidence {
-  /** The session / channel identifier as exposed by the SDK. */
+  /** The session / channel identifier as exposed by the runtime. */
   channelId: string;
   /** Gate name used by the session. */
   gateName: string;
-  /** Cap authorized for the session (human-readable currency amount). */
-  cap: string;
-  /** Per-delivery unit price (human-readable currency amount). */
-  unitPrice: string;
   /** Whether the channel was opened. */
   channelOpened: boolean;
   /** Cumulative amount delivered/accepted by the channel (raw units). */
