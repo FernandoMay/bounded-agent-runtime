@@ -511,12 +511,21 @@ app.post("/api/gateway/dispatch", async (req: Request, res: Response) => {
 
   // ── Step 2: mint a real channel voucher and re-request with it ──
   const voucherToken = `mpp_${fakeSignature().slice(0, 40)}`;
+  // Resolve the channel before minting the voucher so the sequence we advertise
+  // in the request headers is the same one we commit against after settlement.
+  const ch = ensureChannel(route);
+  const channelSeq = ch.microTxCount + 1;
+
   // Carry over the original request headers (Content-Type for POST, etc.) and
   // apply the voucher LAST so a caller-supplied Authorization can never
   // overwrite the payment credential we just minted.
   const paidHeaders: Record<string, string> = {
     ...normalizeHeaders(init.headers),
     Authorization: `Bearer ${voucherToken}`,
+    // Actually sent, not just displayed: the UI renders these in step 2, so
+    // they must reflect the real channel state backing this voucher.
+    "X-Channel-Sequence": String(channelSeq),
+    "X-Channel-Lamports-Committed": price.toString(),
   };
 
   // ── Step 3: paid request → genuine 200 from the live handler ──
@@ -534,9 +543,8 @@ app.post("/api/gateway/dispatch", async (req: Request, res: Response) => {
   session.consumedLamports += price;
   session.requestCount += 1;
 
-  const ch = ensureChannel(route);
   ch.pendingLamports += price;
-  ch.microTxCount += 1;
+  ch.microTxCount = channelSeq;
   ch.status = "OPEN";
   ch.lastSignature = voucherToken;
 
@@ -548,7 +556,7 @@ app.post("/api/gateway/dispatch", async (req: Request, res: Response) => {
     costLamports: price.toString(),
     latencyMs: Number(step3Latency.toFixed(2)),
     phase: "paid",
-    detail: `Voucher cleared · seq #${ch.microTxCount}`,
+    detail: `Voucher cleared · seq #${channelSeq}`,
   });
 
   res.json({
@@ -571,7 +579,7 @@ app.post("/api/gateway/dispatch", async (req: Request, res: Response) => {
       voucherToken: `${voucherToken.slice(0, 24)}…`,
       headers: {
         Authorization: `Bearer ${voucherToken.slice(0, 24)}…`,
-        "X-Channel-Sequence": String(ch.microTxCount),
+        "X-Channel-Sequence": String(channelSeq),
         "X-Channel-Lamports-Committed": price.toString(),
       },
     },
