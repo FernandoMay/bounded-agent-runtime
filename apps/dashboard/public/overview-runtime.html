@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Boundia · Overview &amp; Runtime</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/><crossorigin="" rel="preconnect"/>
+<link href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#00e38b","tertiary-fixed-dim":"#d0bcff","surface-container-highest":"#31353e","on-background":"#dfe2ee","primary-container":"#06b6d4","secondary-container":"#00ec91","surface-highlight":"#23324A","background":"#0f131c","surface-dim":"#0f131c","on-surface-variant":"#bcc9cd","surface-container":"#1c2028","secondary":"#a0ffc3","surface":"#0f131c","on-secondary-container":"#00653b","error":"#ffb4ab","on-error":"#690005","tertiary":"#d0bcff","surface-base":"#111827","outline-variant":"#3d494c","surface-elevated":"#1E293B","status-expired":"#EF4444","surface-card":"#161F30","text-muted":"#64748B","tertiary-container":"#b395ff","surface-bright":"#353942","primary-fixed-dim":"#4cd7f6","border-subtle":"#182234","status-settled":"#F59E0B","surface-container-low":"#181c24","secondary-fixed":"#56ffa8","on-surface":"#dfe2ee","surface-container-high":"#262a33","surface-container-lowest":"#0a0e16","text-secondary":"#94A3B8","primary":"#4cd7f6","tertiary-fixed":"#e9ddff","text-primary":"#F8FAFC","error-container":"#93000a","on-error-container":"#ffdad6","on-primary":"#003640","on-primary-fixed":"#001f26"},borderRadius:{lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{gutter:"1.25rem","space-md":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","space-lg":"1.5rem","gutter-desktop":"1.5rem","margin-desktop":"2.5rem","margin":"1rem","space-xl":"2rem"},fontFamily:{"code-mono":["JetBrains Mono"],"label-caps":["JetBrains Mono"],"stat-metric":["JetBrains Mono"],"headline-lg":["Inter"],"body-bold":["Inter"],"display-xl":["Inter"],"headline-md":["Inter"],"body-base":["Inter"],"code-mono-sm":["JetBrains Mono"]},fontSize:{"code-mono":["13px",{lineHeight:"20px",fontWeight:"500"}],"label-caps":["11px",{lineHeight:"14px",fontWeight:"700"}],"stat-metric":["28px",{lineHeight:"36px",fontWeight:"700"}],"headline-lg":["24px",{lineHeight:"32px",fontWeight:"700"}],"body-bold":["15px",{lineHeight:"24px",fontWeight:"600"}],"display-xl":["36px",{lineHeight:"44px",fontWeight:"800"}],"headline-md":["18px",{lineHeight:"26px",fontWeight:"600"}],"body-base":["15px",{lineHeight:"24px",fontWeight:"400"}],"code-mono-sm":["11px",{lineHeight:"16px",fontWeight:"500"}]}}}};
+</script>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}}::-webkit-scrollbar{display:none;}</style>
+</head>
+<body data-page="overview-runtime" class="bg-surface font-body-base text-body-base text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+
+<aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+  <div class="flex flex-col">
+    <div class="h-16 px-space-lg flex items-center justify-between bg-surface-container-lowest">
+      <div class="flex items-center gap-space-sm">
+        <div class="flex flex-col">
+          <span class="font-headline-md text-headline-md tracking-tight text-on-surface">Boundia</span>
+          <span class="font-code-mono-sm text-code-mono-sm text-text-muted tracking-wide uppercase">Runtime Node</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5 px-space-xs py-0.5 rounded-full bg-surface-container">
+        <div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+        <span class="font-label-caps text-label-caps text-secondary uppercase">MPP</span>
+      </div>
+    </div>
+    <div class="px-space-md py-space-sm">
+      <div class="font-label-caps text-label-caps uppercase text-text-muted px-space-sm mb-space-xs tracking-wider">Control Rails</div>
+      <nav class="flex flex-col gap-space-xs">
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all bg-primary-container text-on-primary-container font-body-bold rounded-xl shadow-[0_0_16px_rgba(6,182,212,0.25)]" aria-current="page" href="/overview-runtime.html">
+          <span class="material-symbols-outlined text-xl">grid_view</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Overview &amp; Runtime</span><span class="font-code-mono-sm text-code-mono-sm">Active Execution Engine</span></div>
+        </a>
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="/allowance-spend-policies.html">
+          <span class="material-symbols-outlined text-xl">tune</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Allowance &amp; Spend Policies</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted group-hover:text-on-surface-variant">Velocity &amp; Budgets</span></div>
+        </a>
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="/provider-402-gateway.html">
+          <span class="material-symbols-outlined text-xl">terminal</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Provider 402 Gateway</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted group-hover:text-on-surface-variant">x402 / MPP Interceptor</span></div>
+        </a>
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="/settlement-channels.html">
+          <span class="material-symbols-outlined text-xl">sync_alt</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Settlement Channels</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted group-hover:text-on-surface-variant">State Sync &amp; Micro-batched</span></div>
+        </a>
+      </nav>
+    </div>
+  </div>
+  <div class="p-space-md flex flex-col gap-space-sm bg-surface-container-lowest">
+    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+      <div class="flex items-center justify-between">
+        <span class="font-label-caps text-label-caps uppercase text-text-muted">Agent Health</span>
+        <div class="flex items-center gap-1.5">
+          <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-fixed-dim opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary-fixed-dim"></span></span>
+          <span class="font-code-mono-sm text-code-mono-sm text-secondary-fixed font-bold" id="session-status">IDLE</span>
+        </div>
+      </div>
+      <div class="flex items-center justify-between text-text-muted"><span class="font-code-mono-sm text-code-mono-sm">Gateway</span><span class="font-code-mono-sm text-code-mono-sm text-text-primary">Express · in-process</span></div>
+    </div>
+    <div class="px-space-sm py-space-xs flex items-center justify-between rounded-lg bg-surface-container-lowest">
+      <span class="font-label-caps text-label-caps uppercase text-text-muted">Runtime Node</span>
+      <span class="font-code-mono-sm text-code-mono-sm text-tertiary-fixed-dim">v0.4.2-alpha</span>
+    </div>
+  </div>
+</aside>
+
+<div class="pl-72 flex flex-col min-h-screen">
+  <header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md">
+      <div class="flex items-center gap-space-md flex-1 max-w-xl">
+        <div class="flex items-center gap-2 px-space-sm py-1 rounded-full bg-surface-container-low shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
+          <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span>
+          <span class="font-code-mono-sm text-code-mono-sm text-on-surface whitespace-nowrap">Localhost · Real 402 Gateway</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-space-md">
+        <div class="flex flex-col items-end">
+          <div class="flex items-center gap-1.5">
+            <span class="font-label-caps text-label-caps text-text-muted uppercase">Allowance:</span>
+            <span class="font-code-mono-sm text-code-mono-sm text-primary font-bold" id="header-allowance">—</span>
+          </div>
+          <div class="w-32 bg-surface-container-highest rounded-full h-1 mt-1 overflow-hidden"><div class="bg-primary h-full rounded-full w-0" id="header-allowance-bar"></div></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full pt-16 bg-surface flex-1">
+    <div class="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
+
+      <div class="relative overflow-hidden rounded-2xl bg-surface-container-low shadow-xl p-6 lg:p-8 flex flex-col gap-6">
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6 pb-6">
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container shadow-inner">
+                <span class="relative flex h-2.5 w-2.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-fixed opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-secondary-fixed"></span></span>
+                <span class="font-label-caps text-label-caps tracking-widest text-secondary uppercase font-bold">Bounded Autonomy Protocol</span>
+              </div>
+              <span class="font-label-caps text-label-caps px-2.5 py-1 rounded-md bg-surface-container font-semibold text-primary">x402 MPP PROTOCOL</span>
+            </div>
+            <h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight mt-1">Autonomous Research Agent Runtime</h1>
+            <p class="font-body-base text-body-base text-text-muted max-w-2xl">Live machine-economic envelope. Every dispatch below is a genuine HTTP 402 → voucher → 200 exchange against the in-process gateway, bounded by a cryptographic spend ceiling.</p>
+          </div>
+          <div class="flex items-center flex-wrap gap-3">
+            <button class="px-4 py-2.5 rounded-xl font-body-bold text-body-bold bg-primary text-on-primary hover:bg-primary-fixed shadow-md shadow-primary/20 flex items-center gap-2 transition-all" onclick="toggleModal('allowance-modal', true)">
+              <span class="material-symbols-outlined text-lg">tune</span> Adjust Allowance Cap
+            </button>
+            <button class="px-4 py-2.5 rounded-xl font-body-bold text-body-bold bg-error-container/40 text-error hover:bg-error-container/70 flex items-center gap-2 transition-all" onclick="toggleModal('revoke-modal', true)">
+              <span class="material-symbols-outlined text-lg">power_settings_new</span> Emergency Revoke
+            </button>
+          </div>
+        </div>
+
+        <div class="relative p-5 rounded-xl bg-surface-container flex flex-col gap-4">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">speed</span>
+              <span class="font-body-bold text-body-bold text-on-surface">Bounded Spend Allowance</span>
+              <span class="font-code-mono-sm text-code-mono-sm text-text-muted px-2 py-0.5 rounded bg-surface-container-high">Hard Bounded Limit</span>
+            </div>
+            <div class="flex items-center gap-4 font-code-mono text-code-mono flex-wrap">
+              <div><span class="text-text-muted">Spent: </span><span class="text-primary font-bold" id="spent-disp">0.000 SOL</span></div>
+              <span class="text-surface-bright">/</span>
+              <div><span class="text-text-muted">Authorized: </span><span class="text-on-surface font-bold" id="cap-disp">0.000 SOL</span></div>
+              <span class="text-surface-bright">/</span>
+              <div><span class="text-text-muted">Remaining: </span><span class="text-secondary font-bold" id="remain-disp">0.000 SOL</span></div>
+            </div>
+          </div>
+          <div class="relative w-full h-3 rounded-full bg-surface-container-highest overflow-hidden">
+            <div class="h-full rounded-full bg-gradient-to-r from-primary to-secondary transition-all duration-500" id="gauge-bar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-surface-container flex flex-col gap-2">
+            <div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-text-muted uppercase">Micro-Payments Dispatched</span><span class="material-symbols-outlined text-primary text-xl">send_money</span></div>
+            <div class="flex items-baseline gap-2"><span class="font-stat-metric text-stat-metric text-text-primary tracking-tight" id="kpi-dispatches">0</span></div>
+            <span class="font-code-mono-sm text-code-mono-sm text-text-muted">Cumulative real 402 handshakes</span>
+          </div>
+          <div class="p-4 rounded-xl bg-surface-container flex flex-col gap-2">
+            <div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-text-muted uppercase">Active MPP Channels</span><span class="material-symbols-outlined text-secondary text-xl">hub</span></div>
+            <div class="flex items-baseline gap-2"><span class="font-stat-metric text-stat-metric text-text-primary tracking-tight" id="kpi-channels">0</span></div>
+            <span class="font-code-mono-sm text-code-mono-sm text-secondary font-bold">Open settlement rails</span>
+          </div>
+          <div class="p-4 rounded-xl bg-surface-container flex flex-col gap-2">
+            <div class="flex items-center justify-between"><span class="font-label-caps text-label-caps text-text-muted uppercase">Avg 402 Handshake Latency</span><span class="material-symbols-outlined text-primary-fixed text-xl">timelapse</span></div>
+            <div class="flex items-baseline gap-2"><span class="font-stat-metric text-stat-metric text-text-primary tracking-tight" id="kpi-latency">—</span></div>
+            <span class="font-code-mono-sm text-code-mono-sm text-text-muted">Measured server-side</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-7 rounded-2xl bg-surface-container-low shadow-xl p-5 lg:p-6 flex flex-col gap-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="p-1.5 rounded-lg bg-surface-container text-primary"><span class="material-symbols-outlined text-lg">terminal</span></div>
+              <div class="flex flex-col">
+                <span class="font-body-bold text-body-bold text-on-surface">HTTP 402 Live Interceptor</span>
+                <span class="font-code-mono-sm text-code-mono-sm text-text-muted">Real payment authorization &amp; settlement logs</span>
+              </div>
+            </div>
+          </div>
+          <div class="relative h-96 overflow-y-auto rounded-xl bg-surface-container-lowest p-4 font-code-mono text-code-mono-sm flex flex-col gap-2" id="terminal-viewport">
+            <div class="flex flex-col gap-2" id="dynamic-log-stream">
+              <div class="text-text-muted">Waiting for real dispatches… (Authorize a session, then dispatch from the Provider 402 Gateway page)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 rounded-2xl bg-surface-container-low shadow-xl p-5 lg:p-6 flex flex-col gap-5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-xl">account_tree</span>
+              <span class="font-body-bold text-body-bold text-on-surface">Boundia Cross-Chain Evidence</span>
+            </div>
+            <span class="font-label-caps text-label-caps px-2.5 py-1 rounded-md bg-secondary/10 text-secondary uppercase">Policy Engine</span>
+          </div>
+          <div class="flex flex-col gap-2" id="evidence-log">
+            <div class="text-text-muted font-code-mono-sm p-3">No cross-chain evidence yet.</div>
+          </div>
+          <p class="font-code-mono-sm text-code-mono-sm text-text-muted">Append-only ledger of every lifecycle the Boundia PolicyEngine authorized across Solana, Hyperliquid, Arbitrum and Zcash. Fail-closed: an adapter that skips a phase records nothing.</p>
+        </div>
+      </div>
+
+      <div class="rounded-2xl bg-surface-container-low shadow-xl p-6 flex flex-col gap-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-xl">swap_calls</span><h2 class="font-headline-md text-headline-md text-on-surface">Active Micro-payment Channels</h2></div>
+            <p class="font-body-base text-body-base text-text-muted">Open rails authorized to redeem signed vouchers against the agent balance.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button class="px-3.5 py-2 rounded-xl bg-surface-container font-body-bold text-body-bold text-on-surface hover:bg-surface-container-high transition-all flex items-center gap-2" id="settle-all-btn">
+              <span class="material-symbols-outlined text-lg text-status-settled">lock_reset</span> Settle All Channels
+            </button>
+            <a class="px-3.5 py-2 rounded-xl bg-primary text-on-primary font-body-bold text-body-bold hover:bg-primary-fixed transition-all flex items-center gap-2" href="/provider-402-gateway.html">
+              <span class="material-symbols-outlined text-lg">add_circle</span> Open New Rail
+            </a>
+          </div>
+        </div>
+        <div class="w-full overflow-x-auto">
+          <table class="w-full text-left font-body-base text-body-base border-collapse">
+            <thead><tr class="text-text-muted font-label-caps text-label-caps uppercase bg-surface-container">
+              <th class="py-3 px-4 rounded-l-lg">Counterparty</th><th class="py-3 px-4">Protocol</th><th class="py-3 px-4">Pending Balance</th><th class="py-3 px-4">Micro-txs</th><th class="py-3 px-4">Status</th><th class="py-3 px-4 text-right rounded-r-lg">Action</th>
+            </tr></thead>
+            <tbody id="channels-tbody" class="text-sm"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Adjust Allowance Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-surface-container-lowest/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200" id="allowance-modal">
+  <div class="w-full max-w-lg rounded-xl bg-surface-container-low p-space-lg shadow-2xl flex flex-col gap-space-md">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary">tune</span><span class="font-headline-md text-headline-md text-on-surface">Modify Spend Ceiling</span></div>
+      <button class="p-1 rounded-lg text-text-muted hover:text-on-surface hover:bg-surface-container transition-all" onclick="toggleModal('allowance-modal', false)"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <p class="font-body-base text-body-base text-text-muted">Configure the bounded spend ceiling. Exceeding it triggers an immediate refusal on every 402 invoice.</p>
+    <div class="flex flex-col gap-space-xs mt-2">
+      <label class="font-label-caps text-label-caps text-text-muted uppercase">Authorized Spend Boundary (USD)</label>
+      <div class="relative flex items-center">
+        <input class="w-full bg-surface-container-lowest text-on-surface font-code-mono text-body-bold px-space-md py-space-sm rounded-lg outline-none ring-1 ring-primary/40 focus:ring-2 focus:ring-primary" id="cap-input-val" step="0.5" type="number" value="10.00"/>
+        <span class="absolute right-3 font-code-mono text-code-mono text-primary font-bold">USD</span>
+      </div>
+    </div>
+    <div class="flex items-center justify-end gap-space-sm mt-4">
+      <button class="px-space-md py-space-sm rounded-lg font-body-bold text-body-bold text-text-muted hover:text-on-surface transition-all" onclick="toggleModal('allowance-modal', false)">Cancel</button>
+      <button class="px-space-lg py-space-sm rounded-lg font-body-bold text-body-bold bg-primary text-on-primary hover:bg-primary-fixed transition-all flex items-center gap-1.5" id="save-allowance-btn"><span class="material-symbols-outlined text-lg">check_circle</span> Update Cap</button>
+    </div>
+  </div>
+</div>
+
+<!-- Emergency Revoke Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-surface-container-lowest/85 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200" id="revoke-modal">
+  <div class="w-full max-w-md rounded-xl bg-surface-container-low p-space-lg shadow-2xl flex flex-col gap-space-md">
+    <div class="flex items-center gap-space-sm text-status-expired"><span class="material-symbols-outlined text-2xl">warning</span><span class="font-headline-md text-headline-md">Halt Runtime Actor?</span></div>
+    <p class="font-body-base text-body-base text-on-surface-variant">This immediately revokes the active session. All open micro-payment channels are forced into settlement mode.</p>
+    <div class="flex items-center justify-end gap-space-sm mt-2">
+      <button class="px-space-md py-space-sm rounded-lg font-body-bold text-body-bold text-text-muted hover:text-on-surface transition-all" onclick="toggleModal('revoke-modal', false)">Abort</button>
+      <button class="px-space-lg py-space-sm rounded-lg font-body-bold text-body-bold bg-error text-on-error hover:bg-on-error-container hover:text-error transition-all flex items-center gap-1.5 shadow-lg shadow-error/20" id="execute-revoke-btn"><span class="material-symbols-outlined text-lg">lock</span> Execute Emergency Halt</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="fixed bottom-6 right-6 z-50 px-space-md py-space-sm rounded-xl bg-surface-container-high shadow-2xl flex items-center gap-space-sm transition-all duration-300 translate-y-20 opacity-0 pointer-events-none" id="toast">
+  <span class="material-symbols-outlined text-secondary text-xl" id="toastIcon">verified</span>
+  <span class="font-code-mono text-code-mono text-on-surface" id="toast-message">Action processed</span>
+</div>
+
+<script src="/shell.js" defer></script>
+</body>
+</html>

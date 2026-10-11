@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Boundia · Allowance &amp; Spend Policies</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"secondary-fixed-dim":"#00e38b","tertiary-fixed-dim":"#d0bcff","surface-container-highest":"#31353e","primary-container":"#06b6d4","secondary-container":"#00ec91","surface-highlight":"#23324A","background":"#0f131c","surface-dim":"#0f131c","on-surface-variant":"#bcc9cd","surface-container":"#1c2028","secondary":"#a0ffc3","surface":"#0f131c","on-secondary-container":"#00653b","error":"#ffb4ab","on-error":"#690005","on-error-container":"#ffdad6","tertiary":"#d0bcff","surface-base":"#111827","outline-variant":"#3d494c","surface-elevated":"#1E293B","status-expired":"#EF4444","surface-card":"#161F30","text-muted":"#64748B","tertiary-container":"#b395ff","surface-bright":"#353942","primary-fixed-dim":"#4cd7f6","border-subtle":"#182234","status-settled":"#F59E0B","surface-container-low":"#181c24","secondary-fixed":"#56ffa8","on-surface":"#dfe2ee","surface-container-high":"#262a33","surface-container-lowest":"#0a0e16","text-secondary":"#94A3B8","primary":"#4cd7f6","tertiary-fixed":"#e9ddff","text-primary":"#F8FAFC","error-container":"#93000a","on-primary":"#003640","on-primary-fixed":"#001f26","primary-fixed":"#acedff"},borderRadius:{lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{gutter:"1.25rem","space-md":"1rem","space-sm":"0.5rem","space-xs":"0.25rem","space-lg":"1.5rem","gutter-desktop":"1.5rem","margin-desktop":"2.5rem","margin":"1rem","space-xl":"2rem"},fontFamily:{"code-mono":["JetBrains Mono"],"label-caps":["JetBrains Mono"],"stat-metric":["JetBrains Mono"],"headline-lg":["Inter"],"body-bold":["Inter"],"display-xl":["Inter"],"headline-md":["Inter"],"body-base":["Inter"],"code-mono-sm":["JetBrains Mono"]},fontSize:{"code-mono":["13px",{lineHeight:"20px",fontWeight:"500"}],"label-caps":["11px",{lineHeight:"14px",fontWeight:"700"}],"stat-metric":["28px",{lineHeight:"36px",fontWeight:"700"}],"headline-lg":["24px",{lineHeight:"32px",fontWeight:"700"}],"body-bold":["15px",{lineHeight:"24px",fontWeight:"600"}],"display-xl":["36px",{lineHeight:"44px",fontWeight:"800"}],"headline-md":["18px",{lineHeight:"26px",fontWeight:"600"}],"body-base":["15px",{lineHeight:"24px",fontWeight:"400"}],"code-mono-sm":["11px",{lineHeight:"16px",fontWeight:"500"}]}}}};
+</script>
+<style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}}::-webkit-scrollbar{display:none;}</style>
+</head>
+<body data-page="allowance-spend-policies" class="bg-surface font-body-base text-body-base text-on-surface antialiased min-h-screen">
+
+<aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest z-50 flex flex-col justify-between">
+  <div class="flex flex-col">
+    <div class="h-16 px-space-lg flex items-center justify-between bg-surface-container-lowest">
+      <div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-tight text-on-surface">Boundia</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted tracking-wide uppercase">Runtime Node</span></div>
+      <div class="flex items-center gap-1.5 px-space-xs py-0.5 rounded-full bg-surface-container"><div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div><span class="font-label-caps text-label-caps text-secondary uppercase">MPP</span></div>
+    </div>
+    <div class="px-space-md py-space-sm">
+      <div class="font-label-caps text-label-caps uppercase text-text-muted px-space-sm mb-space-xs tracking-wider">Control Rails</div>
+      <nav class="flex flex-col gap-space-xs">
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="/overview-runtime.html">
+          <span class="material-symbols-outlined text-xl">grid_view</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Overview &amp; Runtime</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted">Active Execution Engine</span></div>
+        </a>
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all bg-primary-container text-on-primary-container font-body-bold shadow-[0_0_16px_rgba(6,182,212,0.25)]" aria-current="page" href="/allowance-spend-policies.html">
+          <span class="material-symbols-outlined text-xl">tune</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Allowance &amp; Spend Policies</span><span class="font-code-mono-sm text-code-mono-sm">Velocity &amp; Budgets</span></div>
+        </a>
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="/provider-402-gateway.html">
+          <span class="material-symbols-outlined text-xl">terminal</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Provider 402 Gateway</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted">x402 / MPP Interceptor</span></div>
+        </a>
+        <a class="group flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" href="/settlement-channels.html">
+          <span class="material-symbols-outlined text-xl">sync_alt</span>
+          <div class="flex flex-col flex-1"><span class="font-body-bold text-body-bold leading-tight">Settlement Channels</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted">State Sync &amp; Micro-batched</span></div>
+        </a>
+      </nav>
+    </div>
+  </div>
+  <div class="p-space-md"><div class="px-space-sm py-space-xs flex items-center justify-between rounded-lg bg-surface-container-lowest"><span class="font-label-caps text-label-caps uppercase text-text-muted">Runtime Node</span><span class="font-code-mono-sm text-code-mono-sm text-tertiary-fixed-dim">v0.4.2-alpha</span></div></div>
+</aside>
+
+<div class="pl-72 flex flex-col min-h-screen">
+  <header class="fixed top-0 left-72 right-0 h-16 bg-surface/85 backdrop-blur-xl z-40 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+    <div class="h-16 w-full px-space-lg flex items-center justify-between">
+      <div class="flex items-center gap-2 px-space-sm py-1 rounded-full bg-surface-container-low">
+        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span></span>
+        <span class="font-code-mono-sm text-code-mono-sm text-on-surface whitespace-nowrap">Boundia Policy Engine</span>
+      </div>
+      <div class="flex flex-col items-end">
+        <div class="flex items-center gap-1.5"><span class="font-label-caps text-label-caps text-text-muted uppercase">Allowance:</span><span class="font-code-mono-sm text-code-mono-sm text-primary font-bold" id="header-allowance">—</span></div>
+        <div class="w-32 bg-surface-container-highest rounded-full h-1 mt-1 overflow-hidden"><div class="bg-primary h-full rounded-full w-0" id="header-allowance-bar"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full pt-16 bg-surface flex-1">
+    <div class="px-margin-desktop py-space-xl flex flex-col gap-space-xl max-w-[1440px] mx-auto w-full">
+
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-xs">
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center gap-space-xs">
+            <span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Bounded Autonomy Protocol</span>
+            <span class="text-text-muted text-xs">/</span>
+            <span class="font-code-mono-sm text-code-mono-sm text-text-secondary">Multi-chain Policy</span>
+          </div>
+          <h1 class="font-display-xl text-display-xl text-text-primary tracking-tight">Allowance &amp; Spend Policies</h1>
+          <p class="font-body-base text-body-base text-text-secondary">One policy engine, four chains. Per-chain budgets, operation allow-lists and idempotency — enforced before anything is dispatched.</p>
+        </div>
+        <div class="flex items-center gap-space-sm flex-wrap">
+          <div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-xl bg-surface-container-low">
+            <span class="material-symbols-outlined text-secondary text-base">verified_user</span>
+            <span class="font-code-mono-sm text-code-mono-sm text-text-secondary">Guard State:</span>
+            <span class="font-code-mono-sm text-code-mono-sm text-secondary font-semibold uppercase">Enforced (Fail-closed)</span>
+          </div>
+          <button class="flex items-center gap-2 px-space-lg py-2.5 rounded-xl bg-gradient-to-r from-secondary-fixed-dim via-primary to-primary-container text-on-primary-fixed font-body-bold text-body-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.01] active:scale-[0.99] transition-all" id="trigger-auth-btn">
+            <span class="material-symbols-outlined text-lg">lock_open</span> Commit &amp; Sign Policy
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-stretch">
+        <div class="lg:col-span-7 rounded-xl bg-surface-container-low p-space-lg flex flex-col justify-between shadow-md relative overflow-hidden">
+          <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+          <div>
+            <div class="flex items-center justify-between pb-space-md">
+              <div class="flex flex-col">
+                <span class="font-label-caps text-label-caps uppercase text-text-muted">Per-Chain Budget (remaining)</span>
+              </div>
+              <span class="px-2 py-1 rounded bg-secondary/10 text-secondary font-label-caps text-label-caps uppercase flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span> Live Ledger</span>
+            </div>
+            <div class="grid grid-cols-2 gap-space-sm">
+              <div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-0.5">
+                <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-label-caps text-label-caps uppercase text-text-muted">Solana · Runtime</span></div>
+                <span class="font-code-mono text-code-mono text-text-primary font-bold" id="policy-solana-budget">—</span>
+                <span class="font-code-mono-sm text-code-mono-sm text-text-secondary">mpp-session</span>
+              </div>
+              <div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-0.5">
+                <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-caps text-label-caps uppercase text-text-muted">Hyperliquid · Markets</span></div>
+                <span class="font-code-mono text-code-mono text-text-primary font-bold" id="policy-hl-budget">—</span>
+                <span class="font-code-mono-sm text-code-mono-sm text-text-secondary">market-data (atomic)</span>
+              </div>
+              <div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-0.5">
+                <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-tertiary"></span><span class="font-label-caps text-label-caps uppercase text-text-muted">Arbitrum · EVM</span></div>
+                <span class="font-code-mono text-code-mono text-text-primary font-bold" id="policy-arb-budget">—</span>
+                <span class="font-code-mono-sm text-code-mono-sm text-text-secondary">chain-state (atomic)</span>
+              </div>
+              <div class="p-space-sm rounded-lg bg-surface-container flex flex-col gap-0.5">
+                <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-status-settled"></span><span class="font-label-caps text-label-caps uppercase text-text-muted">Zcash · Protected</span></div>
+                <span class="font-code-mono text-code-mono text-text-primary font-bold" id="policy-zec-budget">—</span>
+                <span class="font-code-mono-sm text-code-mono-sm text-text-secondary">fail-closed placeholder</span>
+              </div>
+            </div>
+            <div class="mt-space-md pt-space-sm flex items-center justify-between bg-surface-container-lowest px-space-md py-space-sm rounded-lg">
+              <div class="flex items-center gap-space-sm">
+                <span class="material-symbols-outlined text-primary text-xl">receipt_long</span>
+                <div class="flex flex-col"><span class="font-label-caps text-label-caps uppercase text-text-muted">Evidence Ledger Entries</span><span class="font-code-mono-sm text-code-mono-sm text-text-primary" id="policy-ledger-size">0</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 rounded-xl bg-surface-container-low p-space-lg flex flex-col justify-between shadow-md relative overflow-hidden">
+          <div class="absolute -bottom-20 -right-20 w-52 h-52 rounded-full bg-tertiary-container/15 blur-3xl pointer-events-none"></div>
+          <div class="flex flex-col gap-space-md">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-space-xs">
+                <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary"><span class="material-symbols-outlined text-xl">policy</span></div>
+                <div class="flex flex-col"><span class="font-headline-md text-headline-md text-text-primary">Per-Request Ceiling</span><span class="font-code-mono-sm text-code-mono-sm text-text-muted">Max deduction per HTTP 402 invoice</span></div>
+              </div>
+            </div>
+            <div class="flex items-baseline justify-between">
+              <span class="font-label-caps text-label-caps text-text-muted">Threshold Limit</span>
+              <span class="font-code-mono text-code-mono text-text-primary font-bold" id="ceiling-val-display">0.025 SOL</span>
+            </div>
+            <input class="w-full h-1.5 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" id="ceiling-slider" max="0.100" min="0.005" step="0.005" type="range" value="0.025"/>
+            <div class="flex justify-between font-code-mono-sm text-code-mono-sm text-text-muted"><span>0.005 SOL</span><span>0.100 SOL</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-xl bg-gradient-to-r from-surface-container-low via-surface-container to-surface-container-low p-space-lg shadow-md relative overflow-hidden">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+          <div class="flex flex-col gap-space-xs max-w-xl">
+            <div class="flex items-center gap-space-sm">
+              <span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary-fixed font-code-mono-sm text-code-mono-sm uppercase font-bold">Fail-closed by design</span>
+            </div>
+            <h3 class="font-headline-lg text-headline-lg text-text-primary">Adapters never authorize themselves</h3>
+            <p class="font-body-base text-body-base text-text-secondary">The PolicyEngine owns budget, allow-listing and idempotency. An adapter missing a required phase, exceeding its chain budget, or reusing a key is refused before dispatch — and records nothing in the ledger.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Commit & Sign Modal -->
+<div class="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-center justify-center p-space-md hidden" id="auth-modal">
+  <div class="w-full max-w-lg rounded-xl bg-surface-container-low p-space-xl shadow-2xl flex flex-col gap-space-lg relative">
+    <div class="flex items-center justify-between pb-space-sm">
+      <div class="flex items-center gap-space-sm">
+        <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-2xl">fingerprint</span></div>
+        <div class="flex flex-col"><h4 class="font-headline-md text-headline-md text-text-primary">Commit Policy Revision</h4><span class="font-code-mono-sm text-code-mono-sm text-text-muted">Applied to Boundia PolicyEngine</span></div>
+      </div>
+      <button class="p-1 rounded hover:bg-surface-container text-text-muted hover:text-text-primary transition-colors" id="close-modal-btn"><span class="material-symbols-outlined text-xl">close</span></button>
+    </div>
+    <div class="flex flex-col gap-space-xs bg-surface-container-lowest p-space-md rounded-xl font-code-mono-sm text-code-mono-sm">
+      <div class="flex justify-between py-1"><span class="text-text-muted">Instruction:</span><span class="text-primary font-semibold">policy_engine::update_ceiling</span></div>
+      <div class="flex justify-between py-1"><span class="text-text-muted">Per-Request Ceiling:</span><span class="text-text-primary font-semibold" id="modal-ceiling-preview">0.025 SOL</span></div>
+      <div class="flex justify-between py-1"><span class="text-text-muted">Enforcement:</span><span class="text-secondary font-semibold">Fail-closed (reject over-cap)</span></div>
+    </div>
+    <div class="hidden text-center py-2 px-3 rounded-lg bg-secondary/10 text-secondary font-code-mono-sm text-code-mono-sm" id="sign-status">Committing…</div>
+    <div class="flex items-center justify-end gap-space-sm pt-space-xs">
+      <button class="px-space-md py-2 rounded-xl text-text-muted hover:text-text-primary font-body-base text-body-base transition-colors" id="cancel-modal-btn">Dismiss</button>
+      <button class="px-space-lg py-2 rounded-xl bg-primary text-on-primary font-body-bold text-body-bold hover:bg-primary-container transition-all" id="confirm-sign-btn">Commit Policy</button>
+    </div>
+  </div>
+</div>
+
+<div class="fixed bottom-6 right-6 z-50 px-space-md py-space-sm rounded-xl bg-surface-container-high shadow-2xl flex items-center gap-space-sm transition-all duration-300 translate-y-20 opacity-0 pointer-events-none" id="toast">
+  <span class="material-symbols-outlined text-secondary text-xl" id="toastIcon">verified</span>
+  <span class="font-code-mono text-code-mono text-on-surface" id="toast-message">Action processed</span>
+</div>
+
+<script src="/shell.js" defer></script>
+</body>
+</html>
