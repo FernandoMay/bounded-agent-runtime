@@ -33,7 +33,9 @@ import {
 } from "@agentic/boundia";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PUBLIC_DIR = path.join(__dirname, "public");
+// tsc compiles server.ts → dist/server.js, while the static pages live in
+// public/ at the package root — so resolve one directory up from dist.
+const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const PORT = Number(process.env.PORT ?? 3000);
 
 // ── Real 402 gateway: live Express handlers behind paid middleware ──────────
