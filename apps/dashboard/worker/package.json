@@ -1,0 +1,17 @@
+{
+  "name": "dashboard-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild worker.ts --bundle --format=esm --target=es2022 --outfile=dist/worker.js --external:@agentic/*",
+    "dev": "wrangler dev --port 8787",
+    "deploy:check": "wrangler deploy --dry-run --outdir=dist"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260702.1",
+    "esbuild": "^0.24.2",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.149.0"
+  }
+}
