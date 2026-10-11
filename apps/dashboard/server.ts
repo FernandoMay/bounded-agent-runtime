@@ -18,6 +18,7 @@
  */
 import express, { type Request, type Response } from "express";
 import { fileURLToPath } from "node:url";
+import fs from "node:fs";
 import path from "node:path";
 import {
   createPaidMiddleware,
@@ -37,6 +38,127 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // public/ at the package root — so resolve one directory up from dist.
 const PUBLIC_DIR = path.join(__dirname, "..", "public");
 const PORT = Number(process.env.PORT ?? 3000);
+
+// ── Durable state: JSON file store so channels/settlements/events/session
+//    survive dashboard restarts. Writes are atomic (tmp+rename) and debounced.
+// DASH_DATA_DIR overrides the location (tests use an isolated temp dir).
+const DATA_DIR = process.env.DASH_DATA_DIR
+  ? path.resolve(process.env.DASH_DATA_DIR)
+  : path.join(__dirname, "..", "data");
+const STATE_FILE = path.join(DATA_DIR, "state.json");
+
+interface PersistedState {
+  channels: Array<{
+    [K in keyof ChannelMeter]: ChannelMeter[K] extends bigint
+      ? string
+      : ChannelMeter[K];
+  }>;
+  settlements: Array<{
+    id: string;
+    channel: string;
+    amountLamports: string;
+    microTxCount: number;
+    signature: string;
+    at: string;
+  }>;
+  events: GatewayEvent[];
+  session: {
+    capLamports: string;
+    durationMinutes: number;
+    startedAt: number;
+    consumedLamports: string;
+    requestCount: number;
+    status: SessionState["status"];
+    counter: number;
+  } | null;
+}
+
+let persistTimer: ReturnType<typeof setTimeout> | null = null;
+
+function buildPersistedState(): PersistedState {
+  return {
+    channels: [...channels.values()].map((ch) => ({
+      ...ch,
+      capacityLamports: ch.capacityLamports.toString(),
+      pendingLamports: ch.pendingLamports.toString(),
+    })),
+    settlements: settlementLog,
+    events: eventFeed.slice(-200),
+    session: session
+      ? {
+          capLamports: session.capLamports.toString(),
+          durationMinutes: session.durationMinutes,
+          startedAt: session.startedAt,
+          consumedLamports: session.consumedLamports.toString(),
+          requestCount: session.requestCount,
+          status: session.status,
+          counter: sessionCounter,
+        }
+      : null,
+  };
+}
+
+function writeStateFileSync(): void {
+  try {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+    const tmp = `${STATE_FILE}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(buildPersistedState(), null, 1));
+    fs.renameSync(tmp, STATE_FILE);
+  } catch (err) {
+    console.error("writeStateFileSync failed:", err);
+  }
+}
+
+function schedulePersist(): void {
+  if (persistTimer) clearTimeout(persistTimer);
+  persistTimer = setTimeout(() => {
+    persistTimer = null;
+    writeStateFileSync();
+  }, 200);
+}
+
+function loadPersistedState(): void {
+  let raw: string;
+  try {
+    raw = fs.readFileSync(STATE_FILE, "utf8");
+  } catch {
+    return; // missing/corrupt file → cold start
+  }
+  try {
+    const state = JSON.parse(raw) as PersistedState;
+    for (const ch of state.channels ?? []) {
+      channels.set(ch.routeId, {
+        ...ch,
+        capacityLamports: BigInt(ch.capacityLamports),
+        pendingLamports: BigInt(ch.pendingLamports),
+      });
+      const seqNum = Number(ch.id.match(/chan_sol_(\d+)_/)?.[1] ?? "999");
+      if (seqNum + 1 > channelSeq) channelSeq = seqNum + 1;
+    }
+    settlementLog.push(...(state.settlements ?? []));
+    eventFeed.push(...(state.events ?? []));
+    if (state.session) {
+      sessionCounter = state.session.counter;
+      session = {
+        capLamports: BigInt(state.session.capLamports),
+        durationMinutes: state.session.durationMinutes,
+        startedAt: state.session.startedAt,
+        consumedLamports: BigInt(state.session.consumedLamports),
+        requestCount: state.session.requestCount,
+        status: state.session.status,
+        allowedProviders: new Set([`localhost:${PORT}`, "127.0.0.1"]),
+      };
+      // A restored session only counts if it is still inside its window.
+      if (sessionExpired()) session.status = "EXPIRED";
+    }
+    console.log(
+      `Restored persisted state: ${channels.size} channels, ${settlementLog.length} settlements, ${eventFeed.length} events` +
+        (session ? `, session ${session.status}` : ""),
+    );
+  } catch (err) {
+    console.error("loadPersistedState failed (cold start):", err);
+  }
+}
 
 // ── Real 402 gateway: live Express handlers behind paid middleware ──────────
 
@@ -223,6 +345,7 @@ function ensureChannel(route: GatewayRoute): ChannelMeter {
       settledAt: null,
     };
     channels.set(route.id, ch);
+    schedulePersist();
   }
   return ch;
 }
@@ -334,6 +457,7 @@ const eventFeed: GatewayEvent[] = [];
 function pushEvent(evt: Omit<GatewayEvent, "at">) {
   eventFeed.push({ ...evt, at: new Date().toISOString() });
   if (eventFeed.length > 200) eventFeed.shift();
+  schedulePersist();
 }
 
 // ── Express app ────────────────────────────────────────────────────────────
@@ -368,6 +492,7 @@ app.post("/api/runtime/authorize", (req: Request, res: Response) => {
     allowedProviders: new Set([`localhost:${PORT}`, "127.0.0.1"]),
   };
   res.json({ ok: true, sessionId: sessionId(), usage: sessionUsage() });
+  schedulePersist();
 });
 
 app.get("/api/runtime/usage", (_req: Request, res: Response) => {
@@ -406,6 +531,7 @@ app.post("/api/runtime/settle", (_req: Request, res: Response) => {
     signature,
     at: new Date().toISOString(),
   });
+  schedulePersist();
   res.json({
     ok: true,
     signature,
@@ -424,6 +550,7 @@ app.post("/api/runtime/revoke", (_req: Request, res: Response) => {
   for (const ch of channels.values()) {
     if (ch.status === "OPEN") ch.status = "SETTLING";
   }
+  schedulePersist();
   res.json({ ok: true, usage: sessionUsage() });
 });
 
@@ -549,6 +676,7 @@ app.post("/api/gateway/dispatch", async (req: Request, res: Response) => {
   ch.microTxCount = channelSeq;
   ch.status = "OPEN";
   ch.lastSignature = voucherToken;
+  schedulePersist();
 
   pushEvent({
     routeId: route.id,
@@ -680,6 +808,7 @@ app.post("/api/channels/settle", (req: Request, res: Response) => {
     signature,
     at: new Date().toISOString(),
   });
+  schedulePersist();
   res.json({
     ok: true,
     signature,
@@ -755,6 +884,20 @@ app.post("/api/boundia/run", async (req: Request, res: Response) => {
 
 app.get("/", (_req: Request, res: Response) => {
   res.redirect("/overview-runtime.html");
+});
+
+// Restore durable state before accepting traffic, then serve.
+loadPersistedState();
+
+// Flush the debounced persist synchronously on shutdown so a SIGTERM (tests,
+// deploys) never loses the last mutations.
+process.on("SIGTERM", () => {
+  if (persistTimer) {
+    clearTimeout(persistTimer);
+    persistTimer = null;
+    writeStateFileSync();
+  }
+  process.exit(0);
 });
 
 app.listen(PORT, () => {
