@@ -1,0 +1,33 @@
+# Netlify config for the Boundia dashboard UI.
+#
+# This file overrides whatever build settings are stored in the Netlify UI,
+# so every push to main redeploys the current UI from this repo — no CI
+# workflow involved, just Netlify's native Git integration.
+#
+# The UI is static HTML + shell.js; the real API (402 gateway, sessions,
+# D1) lives on the Cloudflare Worker. public/config.js points the pages at
+# the deployed Worker origin automatically.
+[build]
+  publish = "apps/dashboard/public"
+  # Nothing to compile — the pages are plain static files served as-is.
+  command = "echo 'Serving static Boundia dashboard UI'"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Always serve the freshest shell/config while keeping page loads fast.
+[[headers]]
+  for = "/shell.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# SPA-style fallback: any unknown path gets the overview page.
+[[redirects]]
+  from = "/*"
+  to = "/overview-runtime.html"
+  status = 200

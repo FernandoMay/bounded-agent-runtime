@@ -88,10 +88,15 @@ const ROUTES: GatewayRoute[] = [
     label: "ZK Proof Verify",
     description: "Verify a shielded-state commitment proof.",
     protocol: "MPP",
+    // DEMO response — no proof is cryptographically verified here. Marked so
+    // nobody mistakes this route for a real verifier.
     handler: async () => ({
       verified: true,
       scheme: "groth16",
       tree: "poseidon",
+      demo: true,
+      simulated: true,
+      note: "Demo simulation (no cryptographic proof verification performed)",
     }),
   },
 ];
@@ -203,10 +208,58 @@ function fakeSignature(): string {
   return out;
 }
 
+function simulatedRef(prefix: string): string {
+  const rand = "0123456789abcdef";
+  let r = "";
+  const b = new Uint8Array(12);
+  crypto.getRandomValues(b);
+  for (const x of b) r += rand[x % 16];
+  return `sim-demo-${prefix}-${Date.now().toString(36)}-${r}`;
+}
+
+// ── CORS ───────────────────────────────────────────────────────────────
+
+/**
+ * The UI is served from a static host (Netlify) while the API lives on this
+ * Worker, so every response needs CORS. Allowed: localhost, this Worker's
+ * own *.freebuff.page origins and any *.netlify.app deploy (demo scope).
+ */
+function corsHeaders(request: Request): Record<string, string> {
+  const origin = request.headers.get("Origin") ?? "";
+  const allowed =
+    origin.startsWith("http://localhost") ||
+    origin.startsWith("http://127.0.0.1") ||
+    /^https:\/\/[a-z0-9-]+\.freebuff\.page$/.test(origin) ||
+    /^https:\/\/[a-z0-9-]+\.netlify\.app$/.test(origin);
+  if (!allowed) return {};
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Access-Control-Max-Age": "86400",
+    Vary: "Origin",
+  };
+}
+
 // ── Main fetch handler ─────────────────────────────────────────────────────
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
+    if (request.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: corsHeaders(request) });
+    }
+    const response = await routeRequest(request, env);
+    const headers = new Headers(response.headers);
+    for (const [k, v] of Object.entries(corsHeaders(request))) headers.set(k, v);
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
+  },
+} satisfies ExportedHandler<Env>;
+
+async function routeRequest(request: Request, env: Env): Promise<Response> {
     await ensureSchema(env.DB);
 
     const url = new URL(request.url);
@@ -326,20 +379,24 @@ export default {
       }
       await env.DB.batch([
         env.DB.prepare(`UPDATE channels SET pending_lamports = '0', status = 'SETTLED', settled_at = ?, last_signature = ? WHERE pending_lamports > '0'`)
-          .bind(Date.now(), fakeSignature()),
+          .bind(Date.now(), settleRef),
         ...(total > 0n
           ? [
               env.DB.prepare(
                 `INSERT INTO settlements (id, channel, amount_lamports, micro_tx_count, signature, at)
                  VALUES (?, 'all', ?, ?, ?, ?)`,
-              ).bind(`settle_${Date.now()}`, total.toString(), micro, fakeSignature(), new Date().toISOString()),
+              )          .bind(`settle_${Date.now()}`, total.toString(), micro, settleRef, new Date().toISOString()),
             ]
           : []),
       ]);
       await saveSession(env.DB, session);
       return json({
         ok: true,
-        signature: (chans.results ?? []).length ? fakeSignature() : fakeSignature(),
+        settlementType: 'simulated',
+        settlementReference: settleRef,
+        simulated: true,
+        demo: true,
+        signature: settleRef,
         settledLamports: total.toString(),
         microTxCount: micro,
         usage: await usageView(env.DB),
@@ -480,8 +537,7 @@ export default {
       if (asset.status === 200) return asset;
     }
     return json({ error: "Not Found" }, 404);
-  },
-} satisfies ExportedHandler<Env>;
+}
 
 // ── Paid endpoint logic (worker-side 402) ──────────────────────────────────
 
@@ -509,9 +565,11 @@ async function paidEndpointHandler(
     );
   }
   const result = await route.handler(request);
-  return json(result, 200, {
+  const resultWithMeta = (result && typeof result === 'object') ? { ...result, simulated: true, demo: true } : result;
+  return json(resultWithMeta, 200, {
     "X-Payment-Amount": route.priceLamports.toString(),
-    "X-Payment-Receipt": `receipt-${route.path}-${Date.now()}`,
+    "X-Payment-Receipt": `receipt-demo-${route.path}-${Date.now()}`,
+    "X-Payment-Simulated": "true",
   });
 }
 
@@ -567,6 +625,11 @@ async function dispatchPaid(db: D1Database, request: Request): Promise<Response>
     return json({ error: `expected 402 from gateway, got ${challenge.status}` }, 500);
   }
   const challengeBody = await challenge.json().catch(() => ({}));
+  if (challengeBody && typeof challengeBody === 'object') {
+    (challengeBody as any).simulated = true;
+    (challengeBody as any).demo = true;
+    (challengeBody as any).note = 'Demo 402/gateway flow (no real on-chain payment verification)';
+  }
   const challengeHeaders: Record<string, string> = {};
   challenge.headers.forEach((v, k) => {
     if (["x-payment", "content-type", "www-authenticate"].some((p) => k.startsWith(p))) {
@@ -623,6 +686,11 @@ async function dispatchPaid(db: D1Database, request: Request): Promise<Response>
   );
   const step3Latency = Date.now() - t1;
   const paidBody = await paid.json().catch(() => null);
+  if (paidBody && typeof paidBody === 'object') {
+    (paidBody as any).simulated = true;
+    (paidBody as any).demo = true;
+    (paidBody as any).note = 'Demo paid response (no real on-chain settlement)';
+  }
   const paidHeadersOut: Record<string, string> = {};
   paid.headers.forEach((v, k) => {
     if (["x-payment", "content-type"].some((p) => k.startsWith(p))) {
@@ -693,6 +761,8 @@ async function dispatchPaid(db: D1Database, request: Request): Promise<Response>
       headers: paidHeadersOut,
       body: paidBody,
     },
+    simulated: true,
+    demo: true,
     session: await usageView(db),
     channel: {
       id: chAfter?.id ?? ch.id,
@@ -786,7 +856,8 @@ async function settleChannels(db: D1Database, request: Request): Promise<Respons
     total += BigInt(ch.pending_lamports);
     micro += ch.micro_tx_count;
   }
-  const signature = fakeSignature();
+  const settleRef = simulatedRef('channel-settle');
+  const signature = settleRef;
   await db.batch([
     db.prepare(
       `UPDATE channels SET pending_lamports = '0', status = 'SETTLED', settled_at = ?, last_signature = ?
@@ -799,6 +870,10 @@ async function settleChannels(db: D1Database, request: Request): Promise<Respons
   ]);
   return json({
     ok: true,
+    settlementType: 'simulated',
+    settlementReference: settleRef,
+    simulated: true,
+    demo: true,
     signature,
     settledLamports: total.toString(),
     microTxCount: micro,

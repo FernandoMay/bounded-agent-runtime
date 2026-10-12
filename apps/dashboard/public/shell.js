@@ -8,13 +8,19 @@
  */
 
 const API = {
+  // Resolve once: same-origin on localhost (Express server), the deployed
+  // Worker elsewhere (see config.js — static hosts like Netlify cannot serve
+  // the API themselves).
+  base: typeof window !== "undefined" && window.BOUNDIA_API_BASE !== undefined
+    ? window.BOUNDIA_API_BASE
+    : "",
   async get(path) {
-    const res = await fetch(path);
+    const res = await fetch(this.base + path);
     if (!res.ok) throw new Error(`${path} → ${res.status}`);
     return res.json();
   },
   async post(path, body) {
-    const res = await fetch(path, {
+    const res = await fetch(this.base + path, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body ?? {}),
