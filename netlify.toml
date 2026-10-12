@@ -1,28 +1,25 @@
-# Netlify config for the Boundia dashboard UI.
-#
-# This file overrides whatever build settings are stored in the Netlify UI,
-# so every push to main redeploys the current UI from this repo — no CI
-# workflow involved, just Netlify's native Git integration.
-#
-# The UI is static HTML + shell.js; the real API (402 gateway, sessions,
-# D1) lives on the Cloudflare Worker. public/config.js points the pages at
-# the deployed Worker origin automatically.
+# Netlify config for the Boundia dashboard UI (React app)
+
 [build]
-  publish = "apps/dashboard/public"
-  # Nothing to compile — the pages are plain static files served as-is.
-  command = "echo 'Serving static Boundia dashboard UI'"
+  command = "corepack enable && pnpm install --frozen-lockfile && pnpm --filter dashboard build"
+  publish = "apps/dashboard/dist"
 
 [build.environment]
   NODE_VERSION = "20"
+  NETLIFY_USE_PNPM = "true"
 
-# Always serve fresh assets/HTML while keeping page loads fast.
 [[headers]]
-  for = "/shell.js"
+  for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
-  for = "/config.js"
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
@@ -30,14 +27,3 @@
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-
-[[headers]]
-  for = "/"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# SPA-style fallback: any unknown path gets the overview page.
-[[redirects]]
-  from = "/*"
-  to = "/overview-runtime.html"
-  status = 200
